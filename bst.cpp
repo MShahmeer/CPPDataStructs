@@ -4,26 +4,26 @@ using namespace std;
 class BST
 {
     public:
-    int root;
+    int* root;
     BST* left_subtree;
     BST* right_subtree;
 
     BST(int x)
     {
-        root = x;
+        root = &x;
         left_subtree = nullptr;
         right_subtree = nullptr;
     }
 
     int get_root()
     {
-        cout << "Root value: " << root << endl;
-        return root;
+        cout << "Root value: " << *root << endl;
+        return *root;
     }
 
     void insert(int x)
     {
-        if (x <= root)
+        if (x <= *root)
         {
             if (left_subtree == nullptr)
             {
@@ -47,13 +47,56 @@ class BST
         }
     }
 
+    void remove(int x)
+    {
+        if (x == *root)
+        {
+            if (right_subtree == nullptr)
+            {
+                if (left_subtree == nullptr)
+                {
+                    root = nullptr;
+                }
+                else
+                {
+                    root = left_subtree->root;
+                    right_subtree = left_subtree->right_subtree;
+                    left_subtree = left_subtree->left_subtree;
+                }
+            }
+            else
+            {
+                root = right_subtree->root;
+                BST* curr = right_subtree;
+                while (curr->left_subtree != nullptr)
+                {
+                    curr = curr->left_subtree;
+                }
+                curr->left_subtree = left_subtree;
+                left_subtree = right_subtree->left_subtree;
+                right_subtree = right_subtree->right_subtree;
+                
+            }
+            
+        }
+        else if (x < *root)
+        {
+            left_subtree->remove(x);
+        }
+        else
+        {
+            right_subtree->remove(x);
+        }
+        
+    }
+
     bool find(int x)
     {
-        if (x == root)
+        if (x == *root)
         {
             return true;
         }
-        else if (x < root)
+        else if (x < *root)
         {
             if (left_subtree == nullptr)
             {
