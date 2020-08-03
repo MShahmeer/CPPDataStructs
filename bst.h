@@ -3,11 +3,11 @@
 class BST
 {
     public:
-    int* root;
+    int root;
     BST* left_subtree;
     BST* right_subtree;
 
-    BST(int x);
+    BST();
 
     int get_root();
     void insert(int x);

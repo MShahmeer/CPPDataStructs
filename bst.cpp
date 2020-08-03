@@ -4,30 +4,36 @@ using namespace std;
 class BST
 {
     public:
-    int* root;
+    int root;
     BST* left_subtree;
     BST* right_subtree;
 
-    BST(int x)
+    BST()
     {
-        root = &x;
+        // 0 used to represent an empty root
+        root = 0;
         left_subtree = nullptr;
         right_subtree = nullptr;
     }
 
     int get_root()
     {
-        cout << "Root value: " << *root << endl;
-        return *root;
+        cout << "Root value: " << root << endl;
+        return root;
     }
 
     void insert(int x)
     {
-        if (x <= *root)
+        if (root == 0)
+        {
+            root = x;
+        }
+        else if (x <= root)
         {
             if (left_subtree == nullptr)
             {
-                left_subtree = new BST(x);
+                left_subtree = new BST();
+                left_subtree->insert(x);
             }
             else
             {
@@ -38,7 +44,8 @@ class BST
         {
             if (right_subtree == nullptr)
             {
-                right_subtree = new BST(x);
+                right_subtree = new BST();
+                right_subtree->insert(x);
             }
             else
             {
@@ -49,13 +56,13 @@ class BST
 
     void remove(int x)
     {
-        if (x == *root)
+        if (x == root)
         {
             if (right_subtree == nullptr)
             {
                 if (left_subtree == nullptr)
                 {
-                    root = nullptr;
+                    root = 0;
                 }
                 else
                 {
@@ -79,7 +86,7 @@ class BST
             }
             
         }
-        else if (x < *root)
+        else if (x < root)
         {
             left_subtree->remove(x);
         }
@@ -92,11 +99,11 @@ class BST
 
     bool find(int x)
     {
-        if (x == *root)
+        if (x == root)
         {
             return true;
         }
-        else if (x < *root)
+        else if (x < root)
         {
             if (left_subtree == nullptr)
             {
