@@ -1,129 +1,119 @@
+#include "bst.h"
 #include <iostream>
 using namespace std;
 
-class BST
+BST::BST()
 {
-    public:
-    int root;
-    BST* left_subtree;
-    BST* right_subtree;
+    // 0 used to represent an empty root
+    root = 0;
+    left_subtree = nullptr;
+    right_subtree = nullptr;
+}
 
-    BST()
+int BST::get_root()
+{
+    cout << "Root value: " << root << endl;
+    return root;
+}
+
+void BST::insert(int x)
+{
+    if (root == 0)
     {
-        // 0 used to represent an empty root
-        root = 0;
-        left_subtree = nullptr;
-        right_subtree = nullptr;
+        root = x;
     }
-
-    int get_root()
+    else if (x <= root)
     {
-        cout << "Root value: " << root << endl;
-        return root;
-    }
-
-    void insert(int x)
-    {
-        if (root == 0)
+        if (left_subtree == nullptr)
         {
-            root = x;
+            left_subtree = new BST();
+            left_subtree->insert(x);
         }
-        else if (x <= root)
+        else
+        {
+            left_subtree->insert(x);
+        }
+    }
+    else
+    {
+        if (right_subtree == nullptr)
+        {
+            right_subtree = new BST();
+            right_subtree->insert(x);
+        }
+        else
+        {
+            right_subtree->insert(x);
+        }
+    }
+}
+
+void BST::remove(int x)
+{
+    if (x == root)
+    {
+        if (right_subtree == nullptr)
         {
             if (left_subtree == nullptr)
             {
-                left_subtree = new BST();
-                left_subtree->insert(x);
+                root = 0;
             }
             else
             {
-                left_subtree->insert(x);
+                root = left_subtree->root;
+                right_subtree = left_subtree->right_subtree;
+                left_subtree = left_subtree->left_subtree;
             }
         }
         else
         {
-            if (right_subtree == nullptr)
+            root = right_subtree->root;
+            BST* curr = right_subtree;
+            while (curr->left_subtree != nullptr)
             {
-                right_subtree = new BST();
-                right_subtree->insert(x);
+                curr = curr->left_subtree;
             }
-            else
-            {
-                right_subtree->insert(x);
-            }
-        }
+            curr->left_subtree = left_subtree;
+            left_subtree = right_subtree->left_subtree;
+            right_subtree = right_subtree->right_subtree;    
+        }  
     }
-
-    void remove(int x)
+    else if (x < root)
     {
-        if (x == root)
-        {
-            if (right_subtree == nullptr)
-            {
-                if (left_subtree == nullptr)
-                {
-                    root = 0;
-                }
-                else
-                {
-                    root = left_subtree->root;
-                    right_subtree = left_subtree->right_subtree;
-                    left_subtree = left_subtree->left_subtree;
-                }
-            }
-            else
-            {
-                root = right_subtree->root;
-                BST* curr = right_subtree;
-                while (curr->left_subtree != nullptr)
-                {
-                    curr = curr->left_subtree;
-                }
-                curr->left_subtree = left_subtree;
-                left_subtree = right_subtree->left_subtree;
-                right_subtree = right_subtree->right_subtree;
-                
-            }
-            
-        }
-        else if (x < root)
-        {
-            left_subtree->remove(x);
-        }
-        else
-        {
-            right_subtree->remove(x);
-        }
-        
+        left_subtree->remove(x);
     }
-
-    bool find(int x)
+    else
     {
-        if (x == root)
+        right_subtree->remove(x);
+    } 
+}
+
+bool BST::find(int x)
+{
+    if (x == root)
+    {
+        return true;
+    }
+    else if (x < root)
+    {
+        if (left_subtree == nullptr)
         {
-            return true;
-        }
-        else if (x < root)
-        {
-            if (left_subtree == nullptr)
-            {
-                return false;
-            }
-            else
-            {
-                return left_subtree->find(x);
-            }
+            return false;
         }
         else
         {
-            if (right_subtree == nullptr)
-            {
-                return false;
-            }
-            else
-            {
-                return right_subtree->find(x);
-            }
+            return left_subtree->find(x);
         }
     }
-};
+    else
+    {
+        if (right_subtree == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            return right_subtree->find(x);
+        }
+    }
+}

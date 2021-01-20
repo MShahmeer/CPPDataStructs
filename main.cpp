@@ -5,8 +5,7 @@ using namespace std;
 
 int main()
 {
-    /*
-    BST tree;
+    /* BST tree;
     tree.get_root();
     tree.insert(5);
     tree.get_root();
@@ -36,11 +35,14 @@ int main()
         cin >> n;
         cout << tree.find(n) << endl;
     }
-    while (n != 0);
-    */
-   LinkedList list;
-   list.length();
-   list.insert(1);
-   list.length();
-   return 1;
+    while (n != 0); */
+
+    LinkedList list;
+    //list.length();
+    list.insert(1);
+    //cout << list.first->val << "\n";
+    list.insert(2);
+    cout << list.first->val << "\n";
+    cout << list.first->next->val << "\n";
+    return 1;
 }

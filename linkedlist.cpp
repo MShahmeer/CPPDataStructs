@@ -1,82 +1,73 @@
+#include "linkedlist.h"
 #include <iostream>
 using namespace std;
 
-class Node
+Node::Node(int x)
 {
-    public:
-    int val;
-    Node* next;
+    val = x;
+    next = nullptr;
+}
 
-    Node(int x)
-    {
-        val = x;
-        next = nullptr;
-    }
-};
-
-class LinkedList
+LinkedList::LinkedList()
 {
-    Node* first;
+    first = nullptr;
+}
 
-    LinkedList()
+bool LinkedList::find(int x)
+{
+    if (first == nullptr)
     {
-        first = nullptr;
-    }
-
-    bool find(int x)
-    {
-        if (first == nullptr)
-        {
-            return false;
-        }
-        Node* curr = first;
-        while (curr != nullptr)
-        {
-            if (curr->val == x)
-            {
-                return true;
-            }
-            else
-            {
-                curr = curr->next;
-            }
-        }
         return false;
     }
-
-    int length()
+    Node* curr = first;
+    while (curr != nullptr)
     {
-        int count = 0;
-        Node* curr = first;
-        while (curr != nullptr)
+        if (curr->val == x)
         {
-            count++;
-            curr = curr->next;
-        }
-        cout << count;
-        return count;
-    }
-
-    void insert(int x)
-    {
-        Node newNode(x);
-        if (first == nullptr)
-        {
-            *first = newNode;
+            return true;
         }
         else
         {
-            Node* curr = first;
-            while (curr->next != nullptr)
-            {
-                curr = curr->next;
-            }
-            curr->next = &newNode;
+            curr = curr->next;
         }
     }
+    return false;
+}
 
-    void remove(int x)
+int LinkedList::length()
+{
+    int count = 0;
+    Node* curr = first;
+    while (curr != nullptr)
     {
-        cout << "TODO";
+        cout << curr->val;
+        count++;
+        curr = curr->next;
     }
-};
+    cout << count;
+    return count;
+}
+
+void LinkedList::insert(int x)
+{
+    if (first == nullptr)
+    {
+        Node newNode = Node(x);
+        first = &newNode;
+    }
+    else
+    {
+        Node newNode = Node(x);
+        Node* curr = first;
+        while (curr->next != nullptr)
+        {
+            curr = curr->next;
+        }
+        first->next = &newNode;
+    }
+}
+
+void LinkedList::remove(int x)
+{
+    cout << "TODO";
+}
